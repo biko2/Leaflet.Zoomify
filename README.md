@@ -8,7 +8,7 @@ A tiny simple plugin for [Leaflet](http://leafletjs.com) to load Zoomify tiles f
 - Zoomify tile source
 
 ## Example
-See the example.html file
+See the [example](http://cmulders.github.io/Leaflet.Zoomify/examples/hubble-image.html)
 
 ## Compatibility
 Extends the original Leaflet TileLayer, so basically everything that `L.TileLayer` supports, is supported by this plugin.
