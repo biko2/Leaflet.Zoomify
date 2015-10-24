@@ -1,0 +1,35 @@
+{
+  "name": "leaflet-zoomify",
+  "version": "1.0.0",
+  "description": "Leaflet plugin to display zoomify images",
+  "main": "src/L.TileLayer.Zoomify.js",
+  "demos": [
+    "http://cmulders.github.io/Leaflet.Zoomify/examples/hubble-image.html"
+  ],
+  "scripts": {
+    "lint": "node node_modules/eslint/bin/eslint src/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },  
+  "keywords": [
+    "leaflet",
+    "zoomify",
+    "plugin"
+  ],
+  "author": "Coen Mulders",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^1.5.1",
+    "eslint-config-mourner": "^1.0.0"
+  },
+  "dependencies": {
+    "leaflet": "1.0.0-beta.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cmulders/Leaflet.Zoomify.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cmulders/Leaflet.Zoomify/issues"
+  },
+  "homepage": "https://github.com/cmulders/Leaflet.Zoomify#readme"
+}
