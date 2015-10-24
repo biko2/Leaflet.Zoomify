@@ -118,6 +118,10 @@ L.TileLayer.Zoomify = L.TileLayer.extend({
 		//Add the remaining tiles from this zoom layer to the running total of tiles
 		num += coords.y * this._gridSize[zoom].x + coords.x;
       	return Math.floor(num / this.options.tilesPerTileGroup);
+	},
+	
+	getBounds: function() {
+	    return this.options.bounds;
 	}
 
 });
