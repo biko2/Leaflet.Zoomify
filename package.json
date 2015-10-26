@@ -7,9 +7,10 @@
     "http://cmulders.github.io/Leaflet.Zoomify/examples/hubble-image.html"
   ],
   "scripts": {
-    "lint": "node node_modules/eslint/bin/eslint src/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },  
+    "lint": "eslint src test",
+    "lint-fix": "eslint --fix src test",
   "keywords": [
     "leaflet",
     "zoomify",
@@ -18,8 +19,8 @@
   "author": "Coen Mulders",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^1.5.1",
-    "eslint-config-mourner": "^1.0.0"
+    "eslint": "^1.7",
+    "eslint-config-mourner": "^1.0.0",
   },
   "dependencies": {
     "leaflet": "1.0.0-beta.2"
