@@ -1,8 +1,6 @@
 /*
  * L.TileLayer.Zoomify display Zoomify tiles with Leaflet
  *
- * Developed for Leaflet 1.0-dev
- *
  * Based on the Leaflet.Zoomify (https://github.com/turban/Leaflet.Zoomify)
  * from turban (https://github.com/turban)
  *
@@ -17,23 +15,23 @@ L.TileLayer.Zoomify = L.TileLayer.extend({
 	},
 
 	initialize: function (url, options) {
-		L.setOptions(this, options);
-		this._url = url;
+		L.TileLayer.prototype.initialize.call(this, url, options);
 
 		// Replace with automatic loading from ImageProperties.xml
 		if (this.options.width < 0 || this.options.height < 0) {
 			throw new Error('The user must set the Width and Height of the Zoomify image');
 		}
+	},
 
-		var imageSize = L.point(this.options.width, this.options.height),
-		    tileSize = this.options.tileSize;
+	beforeAdd: function (map) {
+		var imageSize = L.point(this.options.width, this.options.height);
 
 		// Build the zoom sizes of the pyramid and cache them in an array
 		this._imageSize = [imageSize];
 		this._gridSize = [this._getGridSize(imageSize)];
 
 		// Register the image size in pixels and the grid size in # of tiles for each zoom level
-		while (parseInt(imageSize.x) > tileSize || parseInt(imageSize.y) > tileSize) {
+		while (imageSize.x > this.options.tileSize || imageSize.y > this.options.tileSize) {
 			imageSize = imageSize.divideBy(2).ceil();
 			this._imageSize.push(imageSize);
 			this._gridSize.push(this._getGridSize(imageSize));
@@ -49,10 +47,13 @@ L.TileLayer.Zoomify = L.TileLayer.extend({
 		this.options.maxNativeZoom = maxNativeZoom;
 
 		// Register our bounds for this zoomify layer based on the maximum zoom
-		var maxZoomGrid = this._gridSize[maxNativeZoom];
-		var southWest = this._map.unproject([0, maxZoomGrid.y * tileSize], maxNativeZoom);
-		var northEast = this._map.unproject([maxZoomGrid.x * tileSize, 0], maxNativeZoom);
-		this.options.bounds = new L.LatLngBounds(southWest, northEast);
+		var maxZoomGrid = this._gridSize[maxNativeZoom],
+		maxX = maxZoomGrid.x * this.options.tileSize,
+		maxY = maxZoomGrid.y * this.options.tileSize,
+		southEast = map.unproject([maxX, maxY], maxNativeZoom);
+		this.options.bounds = new L.LatLngBounds([[0, 0], southEast]);
+
+		L.TileLayer.prototype.beforeAdd.call(this, map);
 	},
 
 	// Calculate the grid size for a given image size (based on tile size)
