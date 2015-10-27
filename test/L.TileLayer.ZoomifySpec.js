@@ -85,7 +85,7 @@ describe('Tilelayer.Zoomify', function () {
 			];
 
 			var layer = L.tileLayer.zoomify('{g}/{z}-{x}-{y}', size);
-			
+
 			var map = L.map(document.createElement('div'), {
 				crs: L.CRS.Simple
 			});
@@ -97,18 +97,18 @@ describe('Tilelayer.Zoomify', function () {
 		});
 		it('respects the __super__.beforeAdd', function () {
 			var maxZoom = 10,
-				minZoom = 5;
-				
+			minZoom = 5;
+
 			var map = L.map(document.createElement('div'));
 			L.tileLayer.zoomify('{g}/{z}-{x}-{y}', {
-				width: 1000, 
-				height: 1000,				
+				width: 1000,
+				height: 1000,
 				maxZoom: maxZoom,
 				minZoom: minZoom
 			}).addTo(map);
 
 			map.setView([0, 0], 1);
-			
+
 			expect(map.getMaxZoom()).to.equal(maxZoom);
 			expect(map.getMinZoom()).to.equal(minZoom);
 		});
@@ -117,11 +117,11 @@ describe('Tilelayer.Zoomify', function () {
 	describe('#getTileUrl', function () {
 		it('adds the {g} option with the tilegroup', function () {
 			var layer = L.tileLayer.zoomify('{g}/{z}-{x}-{y}', {tileGroupPrefix: 'TileGroup', width: 6000, height: 6000});
-			
-			layer.createTile = function (coords) {
+
+			layer.createTile = function () {
 				return document.createElement('div');
-			}
-			
+			};
+
 			var map = L.map(document.createElement('div')).setView([0, 0], 5);
 
 			layer.addTo(map);
@@ -146,9 +146,9 @@ describe('Tilelayer.Zoomify', function () {
 			var gridSize = L.point(256, 256);
 			var layer = L.tileLayer.zoomify('{g}/{z}-{x}-{y}', size);
 
-			layer.createTile = function (coords) {
+			layer.createTile = function () {
 				return document.createElement('div');
-			}
+			};
 
 			var map = L.map(document.createElement('div'), {
 				crs: L.CRS.Simple
@@ -160,44 +160,51 @@ describe('Tilelayer.Zoomify', function () {
 		});
 	});
 
-	describe('#_addTile', function () {
-		it('should create tiles with truncated size if required', function() {
+	describe.only('#_addTile', function () {
+		it('should create tiles with truncated size if required', function () {
 			var size = {width: 400, height: 300};
 			var layer = L.tileLayer.zoomify('{g}/{z}-{x}-{y}', size);
 
-			layer.createTile = function (coords) {
+			layer.createTile = function () {
 				return document.createElement('div');
-			}
+			};
 
-			var map = L.map(document.createElement('div'), {
+			var container = document.createElement('div');
+			container.style.width = '500px';
+			container.style.height = '500px';
+			document.body.appendChild(container);
+			var map = L.map(container, {
 				crs: L.CRS.Simple
-			});
+			}).setView([0, 0], 0);
 
 			layer.addTo(map);
-			
+
 			map.fitBounds(layer.getBounds());
 			map.setZoom(1);
-			
+
 			function getTileSize(layer, coords) {
 				var key = layer._tileCoordsToKey(coords),
-					tile = layer._tiles[key].el;
+				tile = layer._tiles[key].el;
 
 				return L.point(parseInt(tile.style.width), parseInt(tile.style.height));
 			}
-			
+
 			var expected = [
 				[L.point(0, 0), L.point(256, 256)],
 				[L.point(0, 1), L.point(256, 44)],
 				[L.point(1, 0), L.point(144, 256)],
 				[L.point(1, 1), L.point(144, 44)]
 			];
-			
+
 			expected.forEach(function (testcase) {
 				testcase[0].z = 1;
-				var realSize = getTileSize(layer,testcase[0]),
-					expectedSize = testcase[1];
+				var realSize = getTileSize(layer, testcase[0]),
+				expectedSize = testcase[1];
 				expect(realSize.equals(expectedSize)).to.be.true;
 			});
-		});	
+
+			map.remove();
+			document.body.removeChild(container);
+		});
 	});
 });
