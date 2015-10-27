@@ -179,8 +179,8 @@ describe('Tilelayer.Zoomify', function () {
 
 			layer.addTo(map);
 
-			map.fitBounds(layer.getBounds());
-			map.setZoom(1);
+			map.fitBounds(layer.getBounds(), {animate: false});
+			map.setZoom(1, {animate: false});
 
 			function getTileSize(layer, coords) {
 				var key = layer._tileCoordsToKey(coords),
