@@ -50,7 +50,7 @@ You can use `TileLayer` options and additionally the following options:
 | Option | Type | Default | Description
 | --- | --- | --- | ---
 | tileGroupPrefix | String | `TileGroup` | The prefix used for the tile subdirectories
-| tilesPerTileGroup | Number | `256` | The prefix used for the tile subdirectories
+| tilesPerTileGroup | Number | `256` | The number of tiles per subdirectory
 
 ## License
 This software is released under the [MIT licence](http://www.opensource.org/licenses/mit-license.php). Example image is from the [Hubble Site](http://hubblesite.org/gallery/album/nebula/pr2006001a/hires/true/).
