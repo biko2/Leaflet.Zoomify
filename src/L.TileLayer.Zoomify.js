@@ -50,8 +50,9 @@ L.TileLayer.Zoomify = L.TileLayer.extend({
 		var maxZoomGrid = this._gridSize[maxNativeZoom],
 		maxX = maxZoomGrid.x * this.options.tileSize,
 		maxY = maxZoomGrid.y * this.options.tileSize,
+		northWest = map.unproject([0,0], maxNativeZoom),
 		southEast = map.unproject([maxX, maxY], maxNativeZoom);
-		this.options.bounds = new L.LatLngBounds([[0, 0], southEast]);
+		this.options.bounds = new L.LatLngBounds([northWest, southEast]);
 
 		L.TileLayer.prototype.beforeAdd.call(this, map);
 	},
